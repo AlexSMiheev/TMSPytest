@@ -1,0 +1,50 @@
+import time
+
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service as ChromeService
+
+
+@pytest.fixture
+def get_driver():
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    yield driver
+    driver.close()
+
+
+def test_thedemoosite(get_driver):
+    chrome = get_driver
+    url = 'https://thedemosite.co.uk/addauser.php'
+    chrome.get(url=url)
+    chrome.maximize_window()
+    username_input = chrome.find_element(By.NAME, 'username')
+    username_input.send_keys('TestUser')
+    password_input = chrome.find_element(By.NAME, 'password')
+    password_input.send_keys('TestPass')
+    save_input = chrome.find_element(By.NAME, 'FormsButton2')
+    save_input.click()
+    time.sleep(10)
+
+
+def test_demoqa(get_driver):
+    chrome = get_driver
+    url = 'https://demoqa.com/text-box'
+    chrome.get(url=url)
+    chrome.maximize_window()
+    full_name_input = chrome.find_element(By.ID, 'userName')
+    full_name_input.send_keys('UserName')
+    email_input = chrome.find_element(By.ID, 'userEmail')
+    email_input.send_keys('email@example.com')
+    current_address = chrome.find_element(By.ID, 'currentAddress')
+    current_address.send_keys('User current address')
+    permanent_address = chrome.find_element(By.ID, 'permanentAddress')
+    permanent_address.send_keys('User permanent address')
+    submit_button = chrome.find_element(By.ID, 'submit')
+    submit_button.click()
+    assert 'UserName' in chrome.find_element(By.ID, 'name').text
+    assert 'email@example.com' in chrome.find_element(By.ID, 'email').text
+    assert 'User current address' in chrome.find_element(By.ID, 'currentAddress').text
+    assert 'User permanent address' in chrome.find_element(By.ID, 'permanentAddress').text
+    time.sleep(10)
