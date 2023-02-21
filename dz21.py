@@ -43,8 +43,10 @@ def test_demoqa(get_driver):
     permanent_address.send_keys('User permanent address')
     submit_button = chrome.find_element(By.ID, 'submit')
     submit_button.click()
-    assert 'UserName' in chrome.find_element(By.ID, 'name').text
-    assert 'email@example.com' in chrome.find_element(By.ID, 'email').text
-    assert 'User current address' in chrome.find_element(By.ID, 'currentAddress').text
-    assert 'User permanent address' in chrome.find_element(By.ID, 'permanentAddress').text
+
+    list_of_data = chrome.find_elements(By.CLASS_NAME, 'mb-1')
+    assert 'UserName' in list_of_data[0].text
+    assert 'email@example.com' in list_of_data[1].text
+    assert 'User current address' in list_of_data[2].text
+    assert 'User permanent address' in list_of_data[3].text
     time.sleep(10)
