@@ -49,4 +49,3 @@ def test_demoqa(get_driver):
     assert 'email@example.com' in list_of_data[1].text
     assert 'User current address' in list_of_data[2].text
     assert 'User permanent address' in list_of_data[3].text
-    time.sleep(10)
